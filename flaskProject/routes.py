@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, logout_user, login_required, current_user
 from .models import User
 from . import db
+from .utils import admin_required
 
 bp = Blueprint('auth', __name__)
 
@@ -84,3 +85,8 @@ def profile():
         return redirect(url_for('auth.profile'))
 
     return render_template('profile.html')
+
+@bp.route('/admin_page')
+@admin_required
+def admin_page():
+    return 'This is the admin page!'
