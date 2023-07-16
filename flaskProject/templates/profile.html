@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+    <style>
+        /*DEMO STYLE*/
+
+        @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fafafa;
+        }
+
+        p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 300;
+            line-height: 1.7em;
+            color: #999;
+        }
+
+        a,
+        a:hover,
+        a:focus {
+            color: inherit;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .navbar {
+            padding: 15px 10px;
+            background: #fff;
+            border: none;
+            border-radius: 0;
+            margin-bottom: 40px;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* DARK MODE */
+        body.dark {
+            background: #1c2025;
+            color: #c9d1d9;
+        }
+
+        body.dark #sidebar {
+            background: #2d323d;
+        }
+
+        body.dark #sidebar .sidebar-header {
+            background: #2d323d;
+        }
+
+        body.dark #sidebar ul li a {
+            color: #c9d1d9;
+        }
+
+        body.dark #sidebar ul li a:hover {
+            color: #1c2025;
+            background: #c9d1d9;
+        }
+
+        body.dark #sidebar ul li.active>a,
+        body.dark a[aria-expanded="true"] {
+            color: #1c2025;
+            background: #c9d1d9;
+        }
+
+        body.dark ul ul a {
+            background: #2d323d;
+        }
+
+        body.dark .navbar {
+            background: #2d323d; /* adjust as needed */
+        }
+
+        body.dark .navbar .btn {
+            background-color: #c9d1d9; /* adjust as needed */
+            color: #1c2025; /* adjust as needed */
+        }
+
+        /* END DARK MODE */
+
+        #darkModeToggle {
+            padding: 0px 0px 0px 20px;
+            cursor: pointer;
+        }
+        span {
+            padding-left: 10px;
+        }
+
+        /* ---------------------------------------------------
+            SIDEBAR STYLE
+        ----------------------------------------------------- */
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #6d7fcc;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        #sidebar.active {
+            margin-left: -250px;
+        }
+
+        #sidebar .sidebar-header {
+            padding: 20px;
+            background: #7386D5;
+            text-align: center; /* To center the admin text */
+        }
+
+        #sidebar ul.components {
+            padding: 20px 0;
+            border-bottom: 1px solid #47748b;
+        }
+
+        #sidebar ul p {
+            color: #fff;
+            padding: 10px;
+        }
+
+        #sidebar ul li a {
+            padding: 10px;
+            font-size: 1.1em;
+            display: block;
+        }
+
+        #sidebar ul li a:hover {
+            color: #7386D5;
+            background: #fff;
+        }
+
+        #sidebar ul li.active>a,
+        a[aria-expanded="true"] {
+            color: #fff;
+            background: #7386D5;
+        }
+
+        a[data-toggle="collapse"] {
+            position: relative;
+        }
+
+        ul ul a {
+            font-size: 0.9em !important;
+            padding-left: 30px !important;
+            background: #6d7fcc;
+        }
+
+        ul.CTAs {
+            padding: 20px;
+        }
+
+        ul.CTAs a {
+            text-align: center;
+            font-size: 0.9em !important;
+            display: block;
+            border-radius: 5px;
+            margin-bottom: 5px;
+        }
+
+
+
+        /* ---------------------------------------------------
+            CONTENT STYLE
+        ----------------------------------------------------- */
+
+        #content {
+            width: 100%;
+            padding: 20px;
+            min-height: 100vh;
+            transition: all 0.3s;
+        }
+
+        /* ---------------------------------------------------
+            MEDIAQUERIES
+        ----------------------------------------------------- */
+
+        @media (max-width: 768px) {
+            #sidebar {
+                margin-left: -250px;
+            }
+            #sidebar.active {
+                margin-left: 0;
+            }
+            #sidebarCollapse span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Admin</h3>
+            </div>
+
+            <ul class="list-unstyled components">
+                <p>Welcome, {{ current_user.name }}</p>
+                <li class="active">
+                    <a href="{{ url_for('auth.dashboard') }}">Dashboard</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('auth.profile') }}">Profile</a>
+                </li>
+                <li>
+                    <a href="#">Link 3</a>
+                </li>
+            </ul>
+
+            <ul class="list-unstyled CTAs">
+                <li>
+                    <form method="POST" action="/logout">
+                        <button type="submit" class="btn btn-light btn-block">Logout</button>
+                    </form>
+                </li>
+            </ul>
+
+            <!-- Dark mode toggle switch -->
+            <ul class="list-unstyled">
+                <li>
+                    <div id="darkModeToggle" class="d-flex align-items-center">
+                        <i class="fas fa-toggle-off" id="toggleOff"></i>
+                        <i class="fas fa-toggle-on" id="toggleOn" style="display: none;"></i>
+                        <span class="mr-2">Dark Mode</span>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Page Content  -->
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand ml-3" href="{{ url_for('auth.dashboard') }}">MPDO</a>
+                </div>
+            </nav>
+
+            <div class="container" style="max-width: 500px;">
+                <form class="login-form" method="POST" action="/profile">
+                    <h2>Profile</h2>
+                    <div class="form-group" style="position: relative; padding-bottom: 20px;">
+                        <label for="name">Name:</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ current_user.name }}" required autofocus>
+                        <i class="fas fa-user" style="position: absolute; top: 38px; right: 10px;"></i>
+                    </div>
+                    <div class="form-group" style="position: relative; padding-bottom: 20px;">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ current_user.email }}" required>
+                        <i class="fas fa-envelope" style="position: absolute; top: 38px; right: 10px;"></i>
+                    </div>
+                    <div class="form-group" style="position: relative; padding-bottom: 20px;">
+                        <label for="password">New Password:</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                        <i class="fas fa-lock" style="position: absolute; top: 38px; right: 10px;"></i>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Bootstrap's JavaScript files -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <!-- Add jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Add the sidebar toggle script -->
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+            });
+            // Dark mode toggle switch
+            $('#darkModeToggle').click(function() {
+                $('body').toggleClass('dark');
+                $('#toggleOn, #toggleOff').toggle();
+            });
+        });
+    </script>
+</body>
+</html>
